@@ -130,16 +130,16 @@ class Shipment(Mixin.UuidColumn, Mixin.TrackModel):
     cn23_document = Function(fget='get_latest_cn23_document')
     tracking_number = String(label="Carrier tracking number")
 
-    def _get_latest_cocument(self, document_uuid):
+    def _get_latest_document(self, document_uuid):
         Document = self.registry.Attachment.Document.Latest
         query = Document.query().filter_by(uuid=document_uuid)
         return query.one_or_none()
 
     def get_latest_document(self):
-        return self._get_latest_cocument(self.document_uuid)
+        return self._get_latest_document(self.document_uuid)
 
     def get_latest_cn23_document(self):
-        return self._get_latest_cocument(self.cn23_document_uuid)
+        return self._get_latest_document(self.cn23_document_uuid)
 
     def create_label(self):
         """Retrieve a shipping label from shipping service
